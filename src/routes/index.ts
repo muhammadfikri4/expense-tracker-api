@@ -1,11 +1,11 @@
 import { Router, type Request, type Response } from "express";
 import authRoute from '../app/authentication/authRoute';
-import threadRoute from '../app/thread/threadRoute';
+import categoryRoute from '../app/category/categoryRoute';
 
 const route = Router();
 
 route.use("/auth", authRoute);
-route.use("/thread", threadRoute)
+route.use("/category", categoryRoute);
 
 
 route.get("/", (req: Request, res: Response) => {

@@ -1,7 +1,10 @@
+import { Gender } from "@prisma/client"
+
 export interface UserModelTypes {
     id: string
     name: string,
     email: string,
     password: string,
-    role: "admin" | "user"
+    phoneNumber: string
+    gender: Gender
 }

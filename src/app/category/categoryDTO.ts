@@ -1,4 +1,4 @@
-import { Gender } from "@prisma/client"
+
 
 
 export interface CategoryBodyDTO {
@@ -6,15 +6,6 @@ export interface CategoryBodyDTO {
     id?: string
     name: string
     userId: string
-}
-
-export interface RegisterAuthBodyDTO {
-    email: string
-    password: string
-    fullName: string
-    gender?: Gender
-    phoneNumber?: number
-
 }
 
 export interface LoginAuthBodyDTO {

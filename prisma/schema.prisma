@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id          String        @unique @default(uuid())
+  fullName    String        @map("full_name")
+  email       String
+  password    String
+  phoneNumber String?       @map("phone_number")
+  gender      Gender        @default(Man)
+  Category    Category[]
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+  Transaction Transaction[]
+}
+
+model Category {
+  id          String        @unique @default(uuid())
+  name        String
+  userId      String        @map("user_id")
+  users       Users         @relation(references: [id], fields: [userId])
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+  Transaction Transaction[]
+}
+
+model Transaction {
+  id              String          @unique @default(uuid())
+  description     String?
+  userId          String
+  users           Users           @relation(references: [id], fields: [userId])
+  categoryId      String          @map("category_id")
+  category        Category        @relation(references: [id], fields: [categoryId])
+  transactionTime DateTime        @map("transaction_time")
+  nominal         String
+  currency        Currency
+  type            TransactionType
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+}
+
+enum Gender {
+  Man
+  Woman
+}
+
+enum TransactionType {
+  Income
+  Expenditure
+}
+
+enum Currency {
+  IDR
+}
