@@ -73,11 +73,8 @@ export const loginService = async (
     const users = user as Users
 
     const token = jwt.sign({
-        id: users.id,
-        fullName: users.fullName,
-        email: users.email,
-        gender: users.gender,
-        phoneNumber: users.phoneNumber
+        userId: users.id,
+
     }, ENV.JWT_SECRET as string)
 
     return token

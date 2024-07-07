@@ -13,7 +13,8 @@ export const MESSAGES = {
                 PASSWORD: "Password is required",
                 NAME: "Name is required"
             },
-            CATEGORY: "Category not found"
+            CATEGORY: "Category not found",
+            USER_ID: "User id not found"
 
         },
         INTERNAL_SERVER: "Internal Server Error",

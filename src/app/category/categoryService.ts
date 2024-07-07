@@ -1,4 +1,5 @@
 import dotenv from 'dotenv'
+import { decode } from 'jsonwebtoken'
 import { MESSAGE_CODE } from '../../utils/ErrorCode'
 import { AppError, HttpError } from '../../utils/HttpError'
 import { MESSAGES } from '../../utils/Messages'
@@ -19,15 +20,16 @@ export const createCategoryService = async ({ name, userId }: CategoryBodyDTO) =
     return await createCategory({ name, userId })
 }
 
-export const getCategoryService = async ({ userId }: IFilterCategory) => {
-    if (!userId) {
-        return AppError(MESSAGES.ERROR.REQUIRED.USER_ID, 400, MESSAGE_CODE.BAD_REQUEST)
+export const getCategoryService = async (token: string) => {
+    const decodeToken = decode(token)
+    if (!(decodeToken as IFilterCategory)?.userId) {
+        return AppError(MESSAGES.ERROR.NOT_FOUND.USER_ID, 404, MESSAGE_CODE.NOT_FOUND)
     }
-    const getUser = await getUserById(userId)
+    const getUser = await getUserById((decodeToken as IFilterCategory)?.userId as string)
     if (!getUser) {
         return AppError(MESSAGES.ERROR.NOT_FOUND.USER.ACCOUNT, 404, MESSAGE_CODE.NOT_FOUND)
     }
-    const getCategoryByUser = await getCategoryByUserId({ userId })
+    const getCategoryByUser = await getCategoryByUserId({ userId: (decodeToken as IFilterCategory).userId })
     const getCategoryByKey = await getDefaultCategory()
     const category = [...getCategoryByKey, ...getCategoryByUser]
 

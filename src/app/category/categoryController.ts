@@ -24,12 +24,8 @@ export const createCategoryController = async (req: Request, res: Response) => {
 
 export const getCategoryController = async (req: Request, res: Response) => {
     try {
-        // const { userId } = req.body
-        const userId = req.headers['user-id']
-        const category = await getCategoryService({
-            userId: userId as string,
-
-        })
+        const bearerToken = req.headers.authorization?.replace("Bearer ", "")
+        const category = await getCategoryService(bearerToken as string)
         if ((category as HttpError)?.message) {
             return HandleResponse(res, (category as HttpError).statusCode, (category as HttpError).code, (category as HttpError).message)
         }
