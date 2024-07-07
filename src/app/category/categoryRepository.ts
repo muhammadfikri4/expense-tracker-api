@@ -14,7 +14,10 @@ export const createCategory = async ({ name, userId }: CategoryBodyDTO) => {
 export const getCategoryByUserId = async ({ userId }: IFilterCategory) => {
     return await prisma.category.findMany({
         where: {
-            userId
+            userId,
+            AND: {
+                key: null
+            }
         },
         include: {
             users: {
@@ -26,6 +29,15 @@ export const getCategoryByUserId = async ({ userId }: IFilterCategory) => {
         }
     })
 }
+export const getDefaultCategory = async () => {
+    return await prisma.category.findMany({
+        where: {
+            key: "Default"
+        }
+    })
+}
+
+
 
 export const getCategoryCount = async ({ userId }: IFilterCategory) => {
     return await prisma.category.count({

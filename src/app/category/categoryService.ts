@@ -4,7 +4,7 @@ import { AppError, HttpError } from '../../utils/HttpError'
 import { MESSAGES } from '../../utils/Messages'
 import { getUserById } from '../authentication/authRepository'
 import { CategoryBodyDTO } from './categoryDTO'
-import { createCategory, getCategoryByUserId } from './categoryRepository'
+import { createCategory, getCategoryByUserId, getDefaultCategory } from './categoryRepository'
 import { IFilterCategory } from './categoryTypes'
 import { createCategoryValidate } from './categoryValidate'
 
@@ -27,6 +27,9 @@ export const getCategoryService = async ({ userId }: IFilterCategory) => {
     if (!getUser) {
         return AppError(MESSAGES.ERROR.NOT_FOUND.USER.ACCOUNT, 404, MESSAGE_CODE.NOT_FOUND)
     }
-    const category = await getCategoryByUserId({ userId })
+    const getCategoryByUser = await getCategoryByUserId({ userId })
+    const getCategoryByKey = await getDefaultCategory()
+    const category = [...getCategoryByKey, ...getCategoryByUser]
+
     return category
 }

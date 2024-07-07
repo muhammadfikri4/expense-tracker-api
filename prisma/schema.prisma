@@ -30,6 +30,7 @@ model Category {
   id          String        @unique @default(uuid())
   name        String
   userId      String        @map("user_id")
+  key         String?
   users       Users         @relation(references: [id], fields: [userId])
   createdAt   DateTime      @default(now()) @map("created_at")
   updatedAt   DateTime      @updatedAt @map("updated_at")
