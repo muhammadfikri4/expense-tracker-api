@@ -1,5 +1,5 @@
-import { VerifyToken } from "app/middleware/token";
 import { Router } from "express";
+import { VerifyToken } from "../middleware/token";
 import { createCategoryController, getCategoryController } from "./categoryController";
 
 const route = Router()
